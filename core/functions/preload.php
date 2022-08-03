@@ -67,7 +67,12 @@ if (!function_exists('startCMSSession')) {
             , $secure
             , true
         );
-        session_start();
+		$session_ok = @session_start();
+		if (!$session_ok)
+		{
+			session_regenerate_id(true);
+			session_start();
+		}
         $key = "modx.mgr.session.cookie.lifetime";
 
         if (isset($_SESSION[$key]) && is_numeric($_SESSION[$key])) {
